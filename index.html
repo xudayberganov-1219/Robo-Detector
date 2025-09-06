@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ob'ektlarni Aniqlash - Object Detection</title>
+    <title>Ob'ektlarni Aniqlash - Professional Detection</title>
     <!-- Google Fonts uchun professional ko'rinish -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -136,10 +136,103 @@
             color: var(--text-muted-dark);
         }
 
+        /* Professional Settings Section */
+        .settings {
+            background: var(--glass-bg-light);
+            border-radius: var(--border-radius-xl);
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border-light);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        body.dark-theme .settings {
+            background: var(--glass-bg-dark);
+            border-color: var(--glass-border-dark);
+        }
+
+        .settings::before {
+            content: '⚙️';
+            position: absolute;
+            top: -10px;
+            left: 30px;
+            background: var(--primary-gradient);
+            padding: 10px 15px;
+            border-radius: var(--border-radius-md);
+            font-size: 1.2rem;
+            animation: settingsIcon 4s linear infinite;
+        }
+
+        @keyframes settingsIcon {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .setting-item label {
+            font-weight: 500;
+        }
+
+        /* Professional Input Styling */
+        input[type="range"] {
+            width: 180px;
+            margin-left: 15px;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: var(--glass-bg-light);
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+        }
+
+        input[type="text"] {
+            padding: 14px 18px;
+            border: 2px solid var(--glass-border-light);
+            border-radius: var(--border-radius-md);
+            background: var(--glass-bg-light);
+            color: inherit;
+            width: 250px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        body.dark-theme input[type="text"] {
+            border-color: var(--glass-border-dark);
+            background: var(--glass-bg-dark);
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: scale(1.02);
+        }
+
         /* Professional Controls Panel */
         .controls {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             justify-content: center;
             margin-bottom: 40px;
@@ -410,15 +503,21 @@
 
         /* Professional Detection History */
         .detection-history {
-            max-height: 350px;
+            max-height: 400px;
             overflow-y: auto;
             padding-right: 10px;
         }
+        
+        @media (max-width: 768px) {
+            .detection-history {
+                max-height: 250px;
+            }
+        }
 
         .history-item {
-            padding: 18px 20px;
+            padding: 16px 18px;
             border-radius: var(--border-radius-md);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             background: var(--glass-bg-light);
             border-left: 4px solid var(--primary-color);
             animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -427,6 +526,11 @@
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             position: relative;
+        }
+        
+        .history-item strong {
+            color: var(--primary-color);
+            font-size: 1.1rem;
         }
 
         body.dark-theme .history-item {
@@ -443,99 +547,6 @@
         @keyframes slideIn {
             from { opacity: 0; transform: translateX(-20px); }
             to { opacity: 1; transform: translateX(0); }
-        }
-
-        /* Professional Settings Section */
-        .settings {
-            background: var(--glass-bg-light);
-            border-radius: var(--border-radius-xl);
-            padding: 30px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border-light);
-            box-shadow: var(--shadow-lg);
-            position: relative;
-        }
-
-        body.dark-theme .settings {
-            background: var(--glass-bg-dark);
-            border-color: var(--glass-border-dark);
-        }
-
-        .settings::before {
-            content: '⚙️';
-            position: absolute;
-            top: -10px;
-            left: 30px;
-            background: var(--primary-gradient);
-            padding: 10px 15px;
-            border-radius: var(--border-radius-md);
-            font-size: 1.2rem;
-            animation: settingsIcon 4s linear infinite;
-        }
-
-        @keyframes settingsIcon {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .setting-item label {
-            font-weight: 500;
-        }
-
-        /* Professional Input Styling */
-        input[type="range"] {
-            width: 180px;
-            margin-left: 15px;
-            -webkit-appearance: none;
-            appearance: none;
-            height: 8px;
-            background: var(--glass-bg-light);
-            border-radius: 5px;
-            outline: none;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            background: var(--primary-gradient);
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: var(--shadow-md);
-        }
-
-        input[type="text"] {
-            padding: 14px 18px;
-            border: 2px solid var(--glass-border-light);
-            border-radius: var(--border-radius-md);
-            background: var(--glass-bg-light);
-            color: inherit;
-            width: 250px;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        body.dark-theme input[type="text"] {
-            border-color: var(--glass-border-dark);
-            background: var(--glass-bg-dark);
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-            transform: scale(1.02);
         }
 
         /* Professional Theme Toggle */
@@ -610,64 +621,94 @@
 
         @media (max-width: 768px) {
             .container {
-                padding: 20px 15px;
+                padding: 15px 10px;
             }
             
             .controls {
-                flex-direction: column;
-                gap: 15px;
-                padding: 25px;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+                padding: 20px 15px;
             }
             
             .btn {
                 width: 100%;
-                max-width: 300px;
-                padding: 18px 24px;
+                padding: 16px 12px;
+                font-size: 0.95rem;
+                text-align: center;
             }
             
             .header h1 {
-                font-size: 2.2rem;
+                font-size: 2rem;
                 letter-spacing: -1px;
             }
             
             .header p {
-                font-size: 1.1rem;
-                padding: 0 20px;
+                font-size: 1rem;
+                padding: 0 15px;
             }
             
             .settings {
-                padding: 20px;
+                padding: 15px;
             }
             
             .setting-item {
                 flex-direction: column;
-                gap: 10px;
+                gap: 8px;
                 align-items: flex-start;
             }
             
             .setting-item input[type="text"] {
                 width: 100%;
                 max-width: none;
+                font-size: 0.9rem;
+            }
+            
+            .video-section {
+                margin-bottom: 20px;
+            }
+            
+            .results-section {
+                padding: 20px 15px;
             }
         }
 
         @media (max-width: 480px) {
             .header h1 {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
             }
             
             .container {
-                padding: 15px 10px;
+                padding: 10px 8px;
             }
             
             .controls {
-                padding: 20px 15px;
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 15px 10px;
+            }
+            
+            .btn {
+                padding: 14px 10px;
+                font-size: 0.9rem;
             }
             
             .fps-counter {
-                top: 10px;
-                right: 10px;
-                padding: 8px 12px;
+                top: 8px;
+                right: 8px;
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+            
+            .settings {
+                padding: 12px;
+            }
+            
+            .results-section {
+                padding: 15px 10px;
+            }
+            
+            .history-item {
+                padding: 12px 15px;
                 font-size: 0.9rem;
             }
         }
@@ -738,7 +779,7 @@
         <!-- Sarlavha qismi -->
         <div class="header">
             <h1>🎯 Ob'ektlarni Aniqlash</h1>
-            <p>Kameradan ob'ektlarni real vaqtda aniqlash va tasniflash</p>
+            <p>Professional YOLOv11 model bilan real vaqtda ob'ektlarni aniqlash</p>
         </div>
 
         <!-- Professional Settings -->
@@ -761,11 +802,15 @@
             </div>
         </div>
 
-        <!-- Boshqaruv tugmalari -->
+        <!-- Professional Boshqaruv tugmalari -->
         <div class="controls">
-            <button class="btn btn-primary" onclick="startWebcam()">
+            <button class="btn btn-primary" onclick="startWebcam('user')">
                 <span class="status-indicator" id="camera-status"></span>
-                📹 Kamerani yoqish
+                📹 Old Kamera
+            </button>
+            <button class="btn btn-primary" onclick="startWebcam('environment')" style="background: var(--secondary-gradient);">
+                <span class="status-indicator" id="back-camera-status"></span>
+                📱 Orqa Kamera
             </button>
             <button class="btn btn-success" onclick="toggleDetection()">
                 <span class="status-indicator" id="detection-status"></span>
@@ -866,11 +911,13 @@
         // Holat indikatorini yangilash
         function updateStatusIndicator(elementId, isActive) {
             const indicator = document.getElementById(elementId);
-            indicator.className = isActive ? 'status-indicator active' : 'status-indicator inactive';
+            if (indicator) {
+                indicator.className = isActive ? 'status-indicator active' : 'status-indicator inactive';
+            }
         }
 
-        // Professional kamera boshqaruvi
-        async function startWebcam() {
+        // Professional dual kamera boshqaruvi
+        async function startWebcam(facingMode = 'user') {
             try {
                 // Eski streamni to'xtatish
                 if (webcamStream) {
@@ -882,21 +929,30 @@
                     throw new Error('Brauzering web-kamerani qo\'llab-quvvatlamaydi');
                 }
 
-                // Kamera ruxsatini so'rash
-                showMessage('Kamera ruxsati so\'ralmoqda...');
+                // Kamera turini aniqlash
+                const cameraType = facingMode === 'environment' ? 'Orqa Kamera' : 'Old Kamera';
+                showMessage(`${cameraType} yoqilmoqda...`);
                 
-                // Professional video constraints
+                // Professional video constraints with dual camera support
                 const constraints = {
                     video: {
                         width: { ideal: 1280, max: 1920 },
                         height: { ideal: 720, max: 1080 },
-                        facingMode: 'user',
+                        facingMode: { exact: facingMode },
                         frameRate: { ideal: 30, max: 60 }
                     },
                     audio: false
                 };
 
-                webcamStream = await navigator.mediaDevices.getUserMedia(constraints);
+                try {
+                    webcamStream = await navigator.mediaDevices.getUserMedia(constraints);
+                } catch (exactError) {
+                    // Agar exact facingMode ishlamasa, ideal ni ishlatamiz
+                    console.log('Exact facingMode ishlamadi, ideal ishlatilmoqda');
+                    constraints.video.facingMode = { ideal: facingMode };
+                    webcamStream = await navigator.mediaDevices.getUserMedia(constraints);
+                }
+
                 video.srcObject = webcamStream;
 
                 // Video yuklangandan keyin canvas o'lchamini o'rnatish
@@ -904,7 +960,7 @@
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
                     startFpsCounter();
-                    console.log(`Video o'lchamlari: ${video.videoWidth}x${video.videoHeight}`);
+                    console.log(`${cameraType} - Video o'lchamlari: ${video.videoWidth}x${video.videoHeight}`);
                 };
 
                 // Video o'ynashni kutish
@@ -912,12 +968,21 @@
                     video.play();
                 };
 
-                updateStatusIndicator('camera-status', true);
-                showMessage('Kamera muvaffaqiyatli yoqildi! 📹');
+                // Status indikatorlarini yangilash
+                if (facingMode === 'environment') {
+                    updateStatusIndicator('back-camera-status', true);
+                    updateStatusIndicator('camera-status', false);
+                } else {
+                    updateStatusIndicator('camera-status', true);
+                    updateStatusIndicator('back-camera-status', false);
+                }
+
+                showMessage(`${cameraType} muvaffaqiyatli yoqildi! 📹`);
 
             } catch (error) {
                 console.error('Kamera xatoligi:', error);
                 updateStatusIndicator('camera-status', false);
+                updateStatusIndicator('back-camera-status', false);
                 
                 let errorMessage = 'Kameraga kirishda xatolik yuz berdi';
                 
@@ -928,7 +993,7 @@
                 } else if (error.name === 'NotSupportedError') {
                     errorMessage = 'Kamera qo\'llab-quvvatlanmaydi yoki HTTPS kerak.';
                 } else if (error.name === 'OverconstrainedError') {
-                    errorMessage = 'Kamera talablarga javob bermaydi.';
+                    errorMessage = `${facingMode === 'environment' ? 'Orqa kamera' : 'Old kamera'} mavjud emas.`;
                 }
                 
                 showMessage(errorMessage, true);
@@ -1123,16 +1188,28 @@
             ctx.shadowBlur = 0;
         }
 
-        // Aniqlash natijasini ko'rsatish
+        // Professional aniqlash natijasini ko'rsatish
         function displayDetectionResult(prediction, totalCount) {
             const resultDiv = document.getElementById('current-detection');
             const resultContent = document.getElementById('detection-result');
             
+            // Ob'ekt nomini Uzbek tilida ko'rsatish
+            const objectName = prediction.class;
+            const confidence = Math.round(prediction.confidence * 100);
+            
             resultContent.innerHTML = `
-                <h5>${prediction.class}</h5>
-                <p>Ishonch darajasi: <strong>${Math.round(prediction.confidence * 100)}%</strong></p>
-                <p>Jami aniqlangan: <strong>${totalCount}</strong></p>
-                <small>Vaqt: ${new Date().toLocaleTimeString('uz-UZ')}</small>
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div style="font-size: 2.5rem;">🎯</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 1.8rem; color: white; text-shadow: 0 0 10px rgba(255,255,255,0.5);">${objectName}</h4>
+                        <p style="margin: 5px 0 0 0; opacity: 0.9;">Aniqlangan ob'ekt nomi</p>
+                    </div>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; backdrop-filter: blur(10px);">
+                    <p style="margin: 0 0 8px 0;">📊 Ishonch darajasi: <strong style="color: #4ade80;">${confidence}%</strong></p>
+                    <p style="margin: 0 0 8px 0;">🔢 Jami topilgan: <strong style="color: #60a5fa;">${totalCount}</strong></p>
+                    <p style="margin: 0;">⏰ Vaqt: <strong>${new Date().toLocaleTimeString('uz-UZ')}</strong></p>
+                </div>
             `;
             
             resultDiv.style.display = 'block';
@@ -1235,7 +1312,7 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `snapshot_${new Date().getTime()}.jpg`;
+                a.download = `detection_snapshot_${new Date().getTime()}.jpg`;
                 a.click();
                 URL.revokeObjectURL(url);
                 showMessage('Surat saqlandi');
@@ -1294,6 +1371,7 @@
             
             // Holat indikatorlarini boshlang'ich holatga o'rnatish
             updateStatusIndicator('camera-status', false);
+            updateStatusIndicator('back-camera-status', false);
             updateStatusIndicator('detection-status', false);
             updateStatusIndicator('audio-status', true);
             
@@ -1329,7 +1407,7 @@
             
             // Avtomatik kamerani yoqishni taklif qilish
             setTimeout(() => {
-                showMessage('💡 Boshlash uchun "Kamerani yoqish" tugmasini bosing!');
+                showMessage('💡 Boshlash uchun kamera tugmasini bosing!');
             }, 3000);
         });
 
