@@ -746,11 +746,11 @@
             <h3 style="margin: 0 0 25px 0; font-size: 1.4rem; font-weight: 700; color: var(--primary-color); padding-left: 50px;">🔧 Sozlamalar</h3>
             <div class="setting-item">
                 <label style="font-size: 1.1rem; font-weight: 600;">🔑 API Kaliti:</label>
-                <input type="text" id="api-key" placeholder="API kalitingizni kiriting" value="rf_4cBQ69T3USP63y9nRdm6qhAr0iy1" readonly style="opacity: 0.8;">
+                <input type="text" id="api-key" placeholder="API kalitingizni kiriting" value="4svGLQcyErRhdPorcfVB" readonly style="opacity: 0.8;">
             </div>
             <div class="setting-item">
                 <label style="font-size: 1.1rem; font-weight: 600;">🎯 Model:</label>
-                <input type="text" id="model-id" placeholder="model-nomi/versiya" value="robo-detector-iq8xh/2" readonly style="opacity: 0.8;">
+                <input type="text" id="model-id" placeholder="model-nomi/versiya" value="robo-0gmny/8" readonly style="opacity: 0.8;">
             </div>
             <div class="setting-item">
                 <label style="font-size: 1.1rem; font-weight: 600;">📊 Ishonch darajasi:</label>
@@ -819,9 +819,9 @@
         let lastFpsTime = performance.now();
         let animationId = null;
 
-        // Roboflow API sozlamalari - Yangilangan Professional Keys
-        let apiKey = 'rf_4cBQ69T3USP63y9nRdm6qhAr0iy1'; // Yangilangan API kaliti
-        let modelId = 'robo-detector-iq8xh/2'; // Robo detector modeli
+        // Roboflow API sozlamalari - Oxirgi Professional Keys
+        let apiKey = '4svGLQcyErRhdPorcfVB'; // Oxirgi API kaliti
+        let modelId = 'robo-0gmny/8'; // Yangi robo model versiya 8
         let confidenceThreshold = 0.6;
 
         // Canvas va video elementlari
@@ -1325,7 +1325,7 @@
             console.log('🌐 Protocol:', location.protocol);
             console.log('💻 Host:', location.hostname);
 
-            showMessage('🚀 Professional Robo Detector tayyor! Jahongir va Ilyos loyihasi', false);
+            showMessage('🚀 Professional Robo Detector tayyor!', false);
             
             // Avtomatik kamerani yoqishni taklif qilish
             setTimeout(() => {
