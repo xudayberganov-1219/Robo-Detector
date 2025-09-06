@@ -746,11 +746,11 @@
             <h3 style="margin: 0 0 25px 0; font-size: 1.4rem; font-weight: 700; color: var(--primary-color); padding-left: 50px;">🔧 Sozlamalar</h3>
             <div class="setting-item">
                 <label style="font-size: 1.1rem; font-weight: 600;">🔑 API Kaliti:</label>
-                <input type="text" id="api-key" placeholder="API kalitingizni kiriting" value="HiC2CqYn0kRJlNYj7c7O" readonly style="opacity: 0.8;">
+                <input type="text" id="api-key" placeholder="API kalitingizni kiriting" value="4svGLQcyErRhdPorcfVB" readonly style="opacity: 0.8;">
             </div>
             <div class="setting-item">
                 <label style="font-size: 1.1rem; font-weight: 600;">🎯 Model:</label>
-                <input type="text" id="model-id" placeholder="model-nomi/versiya" value="rock-paper-scissors-sxsw/11" readonly style="opacity: 0.8;">
+                <input type="text" id="model-id" placeholder="model-nomi/versiya" value="robo-detector-iq8xh/2" readonly style="opacity: 0.8;">
             </div>
             <div class="setting-item">
                 <label style="font-size: 1.1rem; font-weight: 600;">📊 Ishonch darajasi:</label>
@@ -819,9 +819,9 @@
         let lastFpsTime = performance.now();
         let animationId = null;
 
-        // Roboflow API sozlamalari - Professional Keys
-        let apiKey = 'HiC2CqYn0kRJlNYj7c7O'; // Professional API key
-        let modelId = 'rock-paper-scissors-sxsw/11'; // Rock Paper Scissors model
+        // Roboflow API sozlamalari - Yangi Professional Keys
+        let apiKey = '4svGLQcyErRhdPorcfVB'; // Yangi API kaliti
+        let modelId = 'robo-detector-iq8xh/2'; // Robo detector modeli
         let confidenceThreshold = 0.6;
 
         // Canvas va video elementlari
@@ -869,7 +869,7 @@
             indicator.className = isActive ? 'status-indicator active' : 'status-indicator inactive';
         }
 
-        // Kamerani boshlash funksiyasi
+        // Professional kamera boshqaruvi
         async function startWebcam() {
             try {
                 // Eski streamni to'xtatish
@@ -877,13 +877,23 @@
                     webcamStream.getTracks().forEach(track => track.stop());
                 }
 
-                // Yangi stream so'rash
+                // Browser qo'llab-quvvatlashini tekshirish
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    throw new Error('Brauzering web-kamerani qo\'llab-quvvatlamaydi');
+                }
+
+                // Kamera ruxsatini so'rash
+                showMessage('Kamera ruxsati so\'ralmoqda...');
+                
+                // Professional video constraints
                 const constraints = {
                     video: {
-                        width: { ideal: 640 },
-                        height: { ideal: 480 },
-                        facingMode: 'user'
-                    }
+                        width: { ideal: 1280, max: 1920 },
+                        height: { ideal: 720, max: 1080 },
+                        facingMode: 'user',
+                        frameRate: { ideal: 30, max: 60 }
+                    },
+                    audio: false
                 };
 
                 webcamStream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -894,15 +904,34 @@
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
                     startFpsCounter();
+                    console.log(`Video o'lchamlari: ${video.videoWidth}x${video.videoHeight}`);
+                };
+
+                // Video o'ynashni kutish
+                video.oncanplay = () => {
+                    video.play();
                 };
 
                 updateStatusIndicator('camera-status', true);
-                showMessage('Kamera muvaffaqiyatli yoqildi');
+                showMessage('Kamera muvaffaqiyatli yoqildi! 📹');
 
             } catch (error) {
                 console.error('Kamera xatoligi:', error);
                 updateStatusIndicator('camera-status', false);
-                showMessage('Kameraga kirishda xatolik yuz berdi', true);
+                
+                let errorMessage = 'Kameraga kirishda xatolik yuz berdi';
+                
+                if (error.name === 'NotAllowedError') {
+                    errorMessage = 'Kamera ruxsati berilmadi. Brauzer sozlamalarini tekshiring.';
+                } else if (error.name === 'NotFoundError') {
+                    errorMessage = 'Kamera topilmadi. Kamera ulangan ekanligini tekshiring.';
+                } else if (error.name === 'NotSupportedError') {
+                    errorMessage = 'Kamera qo\'llab-quvvatlanmaydi yoki HTTPS kerak.';
+                } else if (error.name === 'OverconstrainedError') {
+                    errorMessage = 'Kamera talablarga javob bermaydi.';
+                }
+                
+                showMessage(errorMessage, true);
             }
         }
 
@@ -928,14 +957,20 @@
             updateFps();
         }
 
-        // Aniqlashni boshlash/to'xtatish
+        // Professional aniqlashni boshqarish
         function toggleDetection() {
-            // API kaliti va model ID ni tekshirish
+            // Video holatini tekshirish
+            if (!webcamStream || !video.videoWidth) {
+                showMessage('Avval kamerani yoqing! 📹', true);
+                return;
+            }
+            
+            // API kaliti va model ID ni yangilash
             apiKey = document.getElementById('api-key').value.trim();
             modelId = document.getElementById('model-id').value.trim();
 
             if (!apiKey || !modelId) {
-                showMessage('Iltimos, API kaliti va model nomini kiriting', true);
+                showMessage('API kaliti yoki model nomi yo\'q! ⚠️', true);
                 return;
             }
 
@@ -944,11 +979,12 @@
             
             const button = event.target;
             if (isDetecting) {
-                button.innerHTML = '<span class="status-indicator active"></span> ⏹️ Aniqlashni to\'xtatish';
-                showMessage('Ob\'ektlarni aniqlash boshlandi');
+                button.innerHTML = '<span class="status-indicator active"></span> ⏹️ To\'xtatish';
+                showMessage('🎯 Ob\'ektlarni aniqlash boshlandi!');
+                console.log('🚀 Detection started with:', {apiKey, modelId, confidence: confidenceThreshold});
             } else {
-                button.innerHTML = '<span class="status-indicator inactive"></span> 🔍 Aniqlashni boshlash';
-                showMessage('Ob\'ektlarni aniqlash to\'xtatildi');
+                button.innerHTML = '<span class="status-indicator inactive"></span> 🔍 Boshlash';
+                showMessage('⏸️ Aniqlash to\'xtatildi');
                 // Canvas ni tozalash
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
             }
@@ -977,11 +1013,14 @@
                 
                 const imageData = canvas_temp.toDataURL('image/jpeg', 0.8).split(',')[1];
 
-                // Roboflow API ga so'rov yuborish
-                const response = await fetch(`https://detect.roboflow.com/${modelId}?api_key=${apiKey}&confidence=${confidenceThreshold * 100}`, {
+                // Professional Roboflow API Integration
+                const apiUrl = `https://detect.roboflow.com/${modelId}?api_key=${apiKey}&confidence=${Math.round(confidenceThreshold * 100)}`;
+                
+                const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
+                        'Accept': 'application/json'
                     },
                     body: imageData
                 });
@@ -998,9 +1037,19 @@
                 }
 
             } catch (error) {
-                console.error('Aniqlash xatoligi:', error);
+                console.error('🚨 Aniqlash xatoligi:', error);
                 if (Date.now() - lastDetectionTime > 5000) { // 5 soniyada bir marta xabar
-                    showMessage('Aniqlashda xatolik yuz berdi', true);
+                    let errorMsg = 'Aniqlashda xatolik! 🚨';
+                    
+                    if (error.message.includes('Failed to fetch')) {
+                        errorMsg = 'Internet aloqasi yo\'q yoki API ishlamaydi! 🌐';
+                    } else if (error.message.includes('401') || error.message.includes('403')) {
+                        errorMsg = 'API kaliti noto\'g\'ri! Tekshiring. 🔑';
+                    } else if (error.message.includes('404')) {
+                        errorMsg = 'Model topilmadi! Model nomini tekshiring. 🎯';
+                    }
+                    
+                    showMessage(errorMsg, true);
                     lastDetectionTime = Date.now();
                 }
             }
@@ -1238,7 +1287,7 @@
             }
         }
 
-        // Sahifa yuklanganda
+        // Professional sahifa yuklash
         document.addEventListener('DOMContentLoaded', function() {
             // Saqlangan temani yuklash
             loadTheme();
@@ -1248,6 +1297,16 @@
             updateStatusIndicator('detection-status', false);
             updateStatusIndicator('audio-status', true);
             
+            // HTTPS tekshiruvi
+            if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
+                showMessage('HTTPS kerak! Kamera HTTPS orqali ishlaydi.', true);
+            }
+            
+            // Browser qo'llab-quvvatlashini tekshirish
+            if (!navigator.mediaDevices) {
+                showMessage('Brauzering zamonaviy emas. Yangi brauzer kerak.', true);
+            }
+            
             // Ovozli buyruqlarni o'rnatish
             setupVoiceCommands();
             
@@ -1256,28 +1315,22 @@
                 document.getElementById('confidence-value').textContent = e.target.value + '%';
             });
 
-            // Kalitlarni saqlash
-            document.getElementById('api-key').addEventListener('change', (e) => {
-                localStorage.setItem('roboflow-api-key', e.target.value);
-            });
+            // API kalitlarini o'rnatish
+            apiKey = document.getElementById('api-key').value;
+            modelId = document.getElementById('model-id').value;
             
-            document.getElementById('model-id').addEventListener('change', (e) => {
-                localStorage.setItem('roboflow-model-id', e.target.value);
-            });
+            // Console'da API ma'lumotlarini ko'rsatish
+            console.log('🔑 API Kaliti:', apiKey);
+            console.log('🎯 Model ID:', modelId);
+            console.log('🌐 Protocol:', location.protocol);
+            console.log('💻 Host:', location.hostname);
 
-            // Saqlangan kalitlarni yuklash
-            const savedApiKey = localStorage.getItem('roboflow-api-key');
-            const savedModelId = localStorage.getItem('roboflow-model-id');
+            showMessage('🚀 Professional Robo Detector tayyor!', false);
             
-            if (savedApiKey) {
-                document.getElementById('api-key').value = savedApiKey;
-            }
-            
-            if (savedModelId) {
-                document.getElementById('model-id').value = savedModelId;
-            }
-
-            showMessage('Ilova tayyor! Kamerani yoqib, aniqlashni boshlang.');
+            // Avtomatik kamerani yoqishni taklif qilish
+            setTimeout(() => {
+                showMessage('💡 Boshlash uchun "Kamerani yoqish" tugmasini bosing!');
+            }, 3000);
         });
 
         // Sahifa yopilganda streamni to'xtatish
